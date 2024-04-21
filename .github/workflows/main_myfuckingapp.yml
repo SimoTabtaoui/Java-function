@@ -12,11 +12,11 @@ on:
 env:
   AZURE_FUNCTIONAPP_NAME: myfuckingapp # set this to your function app name on Azure
   PACKAGE_DIRECTORY: '.' # set this to the directory which contains pom.xml file
-  JAVA_VERSION: '11' # set this to the java version to use
+  JAVA_VERSION: '17' # set this to the java version to use
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     permissions:
       id-token: write #This is required for requesting the JWT
 
@@ -26,12 +26,12 @@ jobs:
 
       - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v1
-        with: |+
+        with:
           java-version: ${{ env.JAVA_VERSION }}
 
       - name: 'Restore Project Dependencies Using Mvn'
         shell: pwsh
-        run: |+
+        run: |
           pushd './${{ env.PACKAGE_DIRECTORY }}'
           mvn clean package
           popd
@@ -39,9 +39,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_11875F8218F24924B01A5A142A34B755 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_9634C92F56A44BC78424C37C294B1839 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_3A26EAE1F6B24445B948D4788165ADE0 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_1D173713657546BCB2129752B54BF4AC }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_26B37FC48D14445E96BE492A48F74B54 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_A7804A96424F4EAC80644B7DA625C53B }}
 
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
